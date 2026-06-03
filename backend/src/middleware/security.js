@@ -31,6 +31,7 @@ const corsOptions = {
       "http://localhost:5173",            // Vite dev server
       "http://localhost:3000",            // fallback
       "http://127.0.0.1:5173",
+      "https://anon-upload.vercel.app/",
     ].filter(Boolean);
 
     if (allowed.includes(origin)) return cb(null, true);

@@ -253,7 +253,7 @@ function UploadForm({ setView, setSessionData }) {
 
           <Field label="DESCRIPTION" error={errors.description} full>
             <textarea style={{...S.input,...S.textarea,...(errors.description?S.inputErr:{})}}
-              placeholder="Describe the task, requirements, deliverables expected..."
+              placeholder="Describe the task, requirements, deliverables expected... and a way to contact you payment always done on Paypal"
               value={form.description} onChange={e => set("description", e.target.value)} rows={4} />
           </Field>
 
@@ -285,7 +285,7 @@ function UploadForm({ setView, setSessionData }) {
             </div>
             <div style={S.orLine}><span>— OR PASTE CONTENT —</span></div>
             <textarea style={{...S.input,...S.textarea,...(errors.fileContent?S.inputErr:{})}}
-              placeholder="Paste your README / brief text here..."
+              placeholder="Paste your README / brief text here... Remember to include a way to contact you (payment always done on Paypal)"
               value={form.fileContent} onChange={e => set("fileContent", e.target.value)} rows={5} />
           </Field>
         </div>

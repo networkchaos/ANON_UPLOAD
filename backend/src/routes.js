@@ -33,6 +33,7 @@ router.get("/health", (req, res) => {
 // Inside the router.post("/submit", ...) handler, after svc.createSubmission():
 router.post("/submit", submitLimiter, validate(submitSchema), async (req, res) => {
   try {
+    console.log("VALIDATED BODY:", JSON.stringify(req.validated, null, 2));
     const result = await svc.createSubmission(req.validated, req.ipHash);
 
     // ── ADD THESE 8 LINES ──────────────────────────────────────────────────

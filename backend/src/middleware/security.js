@@ -23,18 +23,26 @@ const helmetMiddleware = helmet({
 // ── CORS ──────────────────────────────────────────────────────────────────────
 const corsOptions = {
   origin(origin, cb) {
-    const allowed = process.env.FRONTEND_URL;
-    // Allow same-origin (no origin header) or the configured frontend
-    if (!origin || origin === allowed) return cb(null, true);
+    // Allow requests with no origin (Postman, curl, same-origin)
+    if (!origin) return cb(null, true);
+
+    const allowed = [
+      process.env.FRONTEND_URL,           // production Vercel URL
+      "http://localhost:5173",            // Vite dev server
+      "http://localhost:3000",            // fallback
+      "http://127.0.0.1:5173",
+    ].filter(Boolean);
+
+    if (allowed.includes(origin)) return cb(null, true);
+
     logger.warn(`CORS blocked: ${origin}`);
     cb(new Error("CORS: origin not allowed"));
   },
-  methods:     ["GET", "POST", "PATCH"],
+  methods:      ["GET", "POST", "PATCH", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Request-ID"],
-  credentials: false,
-  maxAge:      86400,
+  credentials:  false,
+  maxAge:       86400,
 };
-
 // ── Submission rate limit (per IP) ────────────────────────────────────────────
 const submitLimiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || "900000"),
